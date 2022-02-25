@@ -1,0 +1,14 @@
+# Project Name: TaskFrame
+#### Student Name: *Aaron Koendgen*   Student ID: *sa20b051*
+The idea is to create a  low energy photo frame like device, that lists Tasks from a tasklist programm e.g. Asana.
+The frame is constructed out of wood and fits in a 4.2 inch e-ink display, it does not need to be charged.
+The display can either be directly filled with content by nfc, or via a network onnection.
+When used via nfc it does not need any power source.
+
+
+
+## Tools, Technologies and Equipment
+waveshark 4.2 Inch display NFC powered or with spi
+raspberry pi 4
+Programming language: python
+asana api
