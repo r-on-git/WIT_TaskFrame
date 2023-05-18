@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="102775a5-e4f9-4e60-aaba-1ffe92ca6ccf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/faceForIO2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MediapipeStream.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OpenCvStream.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/csvExtraction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/csv_export_demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extractedData/landmarks.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extractedData/landmarkstest.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extractedData/test1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/zoomVid.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2NeCWlBez1msSGH2J0K069NhLSk" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/koend/PycharmProjects/faceForIO2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\koend\PycharmProjects\faceForIO2" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="faceForIO2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\koend\PycharmProjects\faceForIO2\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="102775a5-e4f9-4e60-aaba-1ffe92ca6ccf" name="Changes" comment="" />
+      <created>1680015195341</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680015195341</updated>
+      <workItem from="1680015207649" duration="195000" />
+      <workItem from="1680207049488" duration="1565000" />
+      <workItem from="1680255761415" duration="906000" />
+      <workItem from="1680348774964" duration="1014000" />
+      <workItem from="1680548271313" duration="4999000" />
+      <workItem from="1680591932835" duration="5509000" />
+      <workItem from="1680702307524" duration="3107000" />
+      <workItem from="1680793765581" duration="1191000" />
+      <workItem from="1680874848975" duration="2870000" />
+      <workItem from="1680978563946" duration="2900000" />
+      <workItem from="1681039943624" duration="1603000" />
+      <workItem from="1681118175673" duration="6392000" />
+      <workItem from="1681137131559" duration="10095000" />
+      <workItem from="1681219435569" duration="9496000" />
+      <workItem from="1681292477181" duration="9517000" />
+      <workItem from="1681555914068" duration="6252000" />
+      <workItem from="1681806931830" duration="5794000" />
+      <workItem from="1681900276724" duration="12543000" />
+      <workItem from="1682699887726" duration="1719000" />
+      <workItem from="1682789682025" duration="1370000" />
+      <workItem from="1682861780064" duration="595000" />
+      <workItem from="1682935750065" duration="13499000" />
+      <workItem from="1682984069213" duration="2580000" />
+      <workItem from="1683023378702" duration="1457000" />
+      <workItem from="1683028191657" duration="14434000" />
+      <workItem from="1683268334039" duration="2629000" />
+      <workItem from="1683804984867" duration="594000" />
+      <workItem from="1684067684089" duration="1888000" />
+      <workItem from="1684137406737" duration="1906000" />
+      <workItem from="1684254520068" duration="75000" />
+      <workItem from="1684254609698" duration="1345000" />
+      <workItem from="1684407257541" duration="3270000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MediapipeStream.py</url>
+          <line>212</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MediapipeStream.py</url>
+          <line>224</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/faceForIO2$main.coverage" NAME="main Coverage Results" MODIFIED="1683040132986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faceForIO2$zoomVid.coverage" NAME="zoomVid Coverage Results" MODIFIED="1683269043074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
