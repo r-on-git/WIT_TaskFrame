@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="102775a5-e4f9-4e60-aaba-1ffe92ca6ccf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/faceForIO2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Interface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MediapipeStream.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OpenCvStream.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/csvExtraction.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/csv_export_demo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extractedData/landmarks.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extractedData/landmarkstest.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extractedData/test1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/zoomVid.py" afterDir="false" />
+    <list default="true" id="102775a5-e4f9-4e60-aaba-1ffe92ca6ccf" name="Changes" comment="work in process">
+      <change afterPath="$USER_HOME$/IdeaProjects/HelloWorldAK/HelloWorldAK.iml" afterDir="false" />
+      <change afterPath="$USER_HOME$/IdeaProjects/MusicLandscape/MusicLandscape.iml" afterDir="false" />
+      <change afterPath="$USER_HOME$/IdeaProjects/tannenbaumGenerator/tannenbaumGenerator.iml" afterDir="false" />
+      <change afterPath="$USER_HOME$/OneDrive/Desktop/230518_Backup_FaceForIO/.idea/faceForIO2.iml" afterDir="false" />
+      <change afterPath="$USER_HOME$/OneDrive/Desktop/230520_backup_FaceForIO/faceForIO2/.idea/faceForIO2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../FaceAnalyzer-1.0.1/.idea/FaceAnalyzer-1.0.1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CsvExport.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../faceForIO3/.idea/faceForIO3.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pythonProject/.idea/pythonProject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediapipeStream.py" beforeDir="false" afterPath="$PROJECT_DIR$/MediapipeStream.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OpenCvStream.py" beforeDir="false" afterPath="$PROJECT_DIR$/OpenCvStream.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/csvExtraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/unusedCode/csvExtraction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/csv_export_demo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/extractedData/landmarks.csv" beforeDir="false" afterPath="$PROJECT_DIR$/extractedData/landmarks.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extractedData/test1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zoomVid.py" beforeDir="false" afterPath="$PROJECT_DIR$/unusedCode/zoomVid.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,10 +35,26 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$USER_HOME$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="936a6cda-2af7-409b-8585-00341f331096" />
+        <option name="url" value="https://github.com/r-on-git/faceForIO.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2NeCWlBez1msSGH2J0K069NhLSk" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -49,6 +66,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/koend/PycharmProjects/faceForIO2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -59,6 +77,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\koend\PycharmProjects\faceForIO2" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\koend\PycharmProjects\faceForIO2\unusedCode" />
     </key>
   </component>
   <component name="RunManager">
@@ -124,8 +145,18 @@
       <workItem from="1684137406737" duration="1906000" />
       <workItem from="1684254520068" duration="75000" />
       <workItem from="1684254609698" duration="1345000" />
-      <workItem from="1684407257541" duration="3270000" />
+      <workItem from="1684407257541" duration="5447000" />
+      <workItem from="1684497875840" duration="19291000" />
+      <workItem from="1684584410176" duration="117559000" />
     </task>
+    <task id="LOCAL-00001" summary="work in process">
+      <created>1684425577511</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1684425577511</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,30 +167,80 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Interface" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="work in process" />
+    <option name="LAST_COMMIT_MESSAGE" value="work in process" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/MediapipeStream.py</url>
-          <line>212</line>
-          <option name="timeStamp" value="21" />
+          <line>97</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/MediapipeStream.py</url>
-          <line>224</line>
-          <option name="timeStamp" value="23" />
+          <line>17</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Interface.py</url>
+          <line>50</line>
+          <option name="timeStamp" value="88" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Interface.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="98" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>30</line>
+          <option name="timeStamp" value="100" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="self.face_detection" language="Python" />
+        <watch expression="self.header_written" />
+        <watch expression="self.mp.frame_id" language="Python" />
+        <watch expression="image_face_mesh" language="Python" />
+        <watch expression="image_face_mesh.multi_face_landmarks" />
+        <watch expression="face_landmarks" />
+        <watch expression="self.frame_id" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/faceForIO2$main.coverage" NAME="main Coverage Results" MODIFIED="1683040132986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faceForIO2$main.coverage" NAME="main Coverage Results" MODIFIED="1684772219763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/faceForIO2$zoomVid.coverage" NAME="zoomVid Coverage Results" MODIFIED="1683269043074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/faceForIO2$CsvExport.coverage" NAME="CsvExport Coverage Results" MODIFIED="1684527017568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

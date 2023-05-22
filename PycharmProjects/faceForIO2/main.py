@@ -1,29 +1,52 @@
-# This is a sample Python script.
+# This is FaceForIO
 import Interface
-# Press Umschalt+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import OpenCvStream
+import MediapipeStream
+import CsvExport
+import time
+
+from tkinter import Tk
+
+
+def wait_for_space():
+    input("Press Space to continue...")
+
+def start_Interface(opencv,mp):
+    """
+    starts main Interface with OpenCvStream and MediapipeStream Objects
+    :param opencv: OpenCvStream Object
+    :param mp: MediapipeStream Object
+    :return: Interface object as: interface
+    """
+    interface = Interface.Interface(opencv,mp) #create interface Object
+    interface.run()
+    return interface
 
 
 
+if __name__ == "__main__":
+    opencv = OpenCvStream.OpenCvStream()  # create an instance of the OpenCvStream class
+    mp = MediapipeStream.MediapipeStream() # create an instance of the MediapipeStream class
+    selected_regions = False
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-        # interface = Interface.Interface()
-        # interface.mainloop()
-        region='rightEyebrow'
-        stream = OpenCvStream.OpenCvStream(region)  # create an instance of the openCvStream class
-        stream.readCamera(region)  # call the readCamera method on the instance
+    # Start reading from webcam and return as image_bgr
+    image_bgr = opencv.get_image_bgr()
+    while True:
+        # image is transferred from bgr (opencv Format) to rgb (mediapipe Format)
+        # and handed over frame by frame as 'image_rgb'
+        image_rgb, reading = opencv.get_image_rgb(image_bgr)
+        if not selected_regions:
 
-#TODO: make the selected face area as parameter/ split read camera further
-#try calling mediapipepart functions here , outside of read camera/ make a sub function to call these within readcamera, but from here.
-# consider where and how it runs smoothest, as currently there are some lags, probably due to too many unnecessary calls and prints
+            interface = start_Interface(opencv, mp)
+            selected_regions, region_settings = interface.get_regions_settings()
+        print("Selected regions:", selected_regions)
+        print("Region settings:", region_settings)
+        region = selected_regions
+        # image_rgb is handed over to the main MediapipeStream, where it is processed
+        # (Landmarks tracked, drawn, exportet as .csv)
+        mp.processMP(image_rgb, region)
 
-'''
-    stream = openCvStream()  # create an instance of the openCvStream class
-    stream.readCamera()  # call the readCamera method on the instance
-
-'''
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        # image with Landmark annotations is transferred from rgb (mediapipe Format)
+        # to bgr (opencv Format) and displayed via opencv
+        if not opencv.show_image(image_rgb):
+            break

@@ -1,7 +1,4 @@
-# import cv2
-import csv
-import os.path
-
+import CsvExport
 import mediapipe as mp
 from mediapipe.python.solutions import face_mesh
 
@@ -18,115 +15,134 @@ from mediapipe.python.solutions import face_mesh
 
 
 class MediapipeStream:
-    def __init__(self, region):
-        # Initialize the MediaPipe Face Detection model
+    def __init__(self):
+        self.csv_export = CsvExport.CsvExport()
+        self.row_data = [478]
         self.mp_face_detection = mp.solutions.face_detection
         self.mp_drawing = mp.solutions.drawing_utils
         self.face_detection = self.mp_face_detection.FaceDetection()
-
-        self.selected_lm = self.selectLM(region)
         self.landmarks = []
-        self.frameid = 0
+        self.frame_id = 0
+        self.header_written = False
+        self.nosetip = 4
+        self.ref_vert_top = 10
 
-        # self.get_image_shape()
+    def get_frame_id(self):
+        return self.frame_id
 
-    '''def drawLandmarks(self, image):
-        mp_drawing = mp.solutions.drawing_utils
-        mp_drawing_styles = mp.solutions.drawing_styles
-        mp_face_mesh = mp.solutions.face_mesh
-        drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)'''
+    def select_lm(self, region):
+        eye_left = [362, 385, 387, 263, 373, 380]
+        eye_right = [33, 160, 158, 133, 153, 144]
+        nosetip = 4
+        ref_vert_top = 10
 
-    def selectLM(self, region):
-        FACEMESH_LIPS = frozenset([(61, 146), (146, 91), (91, 181), (181, 84), (84, 17),
-                                   (17, 314), (314, 405), (405, 321), (321, 375),
-                                   (375, 291), (61, 185), (185, 40), (40, 39), (39, 37),
-                                   (37, 0), (0, 267),
-                                   (267, 269), (269, 270), (270, 409), (409, 291),
-                                   (78, 95), (95, 88), (88, 178), (178, 87), (87, 14),
-                                   (14, 317), (317, 402), (402, 318), (318, 324),
-                                   (324, 308), (78, 191), (191, 80), (80, 81), (81, 82),
-                                   (82, 13), (13, 312), (312, 311), (311, 310),
-                                   (310, 415), (415, 308)])
-
-        FACEMESH_LEFT_EYE = frozenset([(263, 249), (249, 390), (390, 373), (373, 374),
-                                       (374, 380), (380, 381), (381, 382), (382, 362),
-                                       (263, 466), (466, 388), (388, 387), (387, 386),
-                                       (386, 385), (385, 384), (384, 398), (398, 362)])
-
-        FACEMESH_LEFT_EYEBROW = frozenset([(276, 283), (283, 282), (282, 295),
-                                           (295, 285), (300, 293), (293, 334),
-                                           (334, 296), (296, 336)])
-
-        FACEMESH_RIGHT_EYE = frozenset([(33, 7), (7, 163), (163, 144), (144, 145),
-                                        (145, 153), (153, 154), (154, 155), (155, 133),
-                                        (33, 246), (246, 161), (161, 160), (160, 159),
-                                        (159, 158), (158, 157), (157, 173), (173, 133)])
-
-        FACEMESH_RIGHT_EYEBROW = frozenset([(46, 53), (53, 52), (52, 65), (65, 55),
-                                            (70, 63), (63, 105), (105, 66), (66, 107)])
-
-        FACEMESH_REF_VERTICAL = frozenset([(10, 0)])
-
-        FACEMESH_NOSETIP = frozenset([(4, 5)])
-
-        FACEMESH_BETWEEN_EYES = frozenset([(6, 168)])
-
-        if region == 'leftEyebrow':
-            selected_lm = face_mesh.FACEMESH_LEFT_EYEBROW
-        elif region == 'rightEyebrow':
-            selected_lm = face_mesh.FACEMESH_RIGHT_EYEBROW
-        elif region == 'leftEye':
-            selected_lm = face_mesh.FACEMESH_LEFT_EYE
-        elif region == 'rightEye':
-            selected_lm = face_mesh.FACEMESH_RIGHT_EYE
-        elif region == 'noseTip':
-            selected_lm = FACEMESH_NOSETIP
-        elif region == 'lips':
-            selected_lm = face_mesh.FACEMESH_LIPS
-        elif region == 'refVertical':
-            selected_lm = FACEMESH_REF_VERTICAL
-        elif region == 'refBetweenEyes':
-            selected_lm = FACEMESH_BETWEEN_EYES
+        if region == 'eye_left':
+            selected_lm = eye_left
+        elif region == 'eye_right':
+            selected_lm = eye_right
+        elif region == 'nosetip':
+            selected_lm = nosetip
+        elif region == 'ref_vert_top':
+            selected_lm = ref_vert_top
         else:
             print("Invalid region")
             # TODO errorHandling here
 
         return selected_lm
 
-    def drawPartLM(self, region, image, face_landmarks):
+    def select_lm_connections(self, region):
+        selected_lm_connections = set()
+        FACEMESH_REF_VERTICAL = frozenset([(10, 0)])
+        FACEMESH_NOSETIP = frozenset([(4, 5)])
+        FACEMESH_BETWEEN_EYES = frozenset([(6, 168)])
+        if 'leftEyebrow' in region:
+            selected_lm_connections.update(face_mesh.FACEMESH_LEFT_EYEBROW)
+        if 'rightEyebrow' in region:
+            selected_lm_connections.update(face_mesh.FACEMESH_RIGHT_EYEBROW)
+        if 'bothEyebrows' in region:
+            selected_lm_connections.update(face_mesh.FACEMESH_RIGHT_EYEBROW)
+            selected_lm_connections.update(face_mesh.FACEMESH_LEFT_EYEBROW)
+        if 'leftEye' in region:
+            selected_lm_connections.update(face_mesh.FACEMESH_LEFT_EYE)
+        if 'rightEye' in region:
+            selected_lm_connections.update(face_mesh.FACEMESH_RIGHT_EYE)
+        if 'bothEyes' in region:
+            selected_lm_connections.update(face_mesh.FACEMESH_RIGHT_EYE)
+            selected_lm_connections.update(face_mesh.FACEMESH_LEFT_EYE)
+        if 'mouth' in region:
+            selected_lm_connections.update(face_mesh.FACEMESH_LIPS)
+        if 'noseTip' in region:
+            selected_lm_connections.update(FACEMESH_NOSETIP)
+        if 'refVertical' in region:
+            selected_lm_connections.update(FACEMESH_REF_VERTICAL)
+        if 'refBetweenEyes' in region:
+            selected_lm_connections.update(FACEMESH_BETWEEN_EYES)
+        if region is None:
+            selected_lm_connections = None
+        return frozenset(selected_lm_connections)
+
+    def drawPartLM(self, region, image_rgb, face_landmarks):
         mp_drawing = mp.solutions.drawing_utils
         mp_drawing_styles = mp.solutions.drawing_styles
-        mp_face_mesh = mp.solutions.face_mesh
-        drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
-
-        selected_lm = self.selectLM(region)
+        drawing_spec = None  # set to None, so that not all LMs are drawn
+        # use this, to display all 477 LM´s:
+        # drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
+        selected_lm_connections = self.select_lm_connections(region)
 
         mp_drawing.draw_landmarks(
-            image=image,
+            image=image_rgb,
             landmark_list=face_landmarks,
-            connections=selected_lm,
-            landmark_drawing_spec=None,
+            connections=frozenset(selected_lm_connections),  # draws connections between a Tupel of LM´s
+            landmark_drawing_spec=drawing_spec,
             connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_contours_style())
-        print(region + "Landmarks drawn")
+        # print(str(region) + "Landmarks drawn")
 
-    def get_image_shape(self, image):
-        image_height, image_width, image_depth = image.shape
+    def get_image_shape(self, image_rgb):
+        image_height, image_width, image_depth = image_rgb.shape
         # print('image height is(image.shape):', image_height)
         # print('image width is:(image.shape):', image_width)
         return image_height, image_width
 
-    def absolute_lm(self, image, lm_xyz):
-        image_height, image_width = self.get_image_shape(image)
+    def absolute_lm(self, image_rgb, lm_xyz):
+        image_height, image_width = self.get_image_shape(image_rgb)
         abs_lm_x = image_width * lm_xyz.x
         abs_lm_y = image_height * lm_xyz.y
         return abs_lm_x, abs_lm_y
 
     def distance(self, point_1, point_2):
-        dist = sum([(i - j) ** 2 for i, j in zip(point_1, point_2)]) ** 0.5
+        """
+        returns the distance between two landmarks,
+        calculates euclidian distance based on x and y values
+        Formula: sum([(i - j) ** 2 for i, j in zip(point_1, point_2)]) ** 0.5
+
+        :Point1 (x,y) point_1:
+        :Point2 (x,y) point_2:
+        : distance between point_1 and point_2 return: dist
+        """
+        dist = sum([(i - j) ** 2 for i, j in zip(point_1, point_2)]) ** 0.5  # euclidian distance is calculated
         return dist
 
-    def get_abs_lm_xy(self, image, single_lm_coord):
-        abs_lm_x, abs_lm_y = self.absolute_lm(image, single_lm_coord)
+    def abs_distance_from_lms(self, lm1, lm2, image_rgb, face_landmarks):
+        """
+        returns the absolute distance between two landmarks,
+        calculates absolute x and y coordinates first by x*image_width and y*image_height, here: 460*640,
+        then calculates euclidian distance based on these values
+        Formula: sum([(i - j) ** 2 for i, j in zip(point_1, point_2)]) ** 0.5
+        :param lm1:Landmark1(0-477)
+        :param lm2:Landmark2(0-477)
+        :param image_rgb: imageFrame in rgb
+        :param face_landmarks: Landmark Dict with format (x: , y: , z: )
+        :return: absolute distance between lm1 and lm2 as: abs_dist
+        """
+        point_1 = self.get_abs_point_from_single_lm(lm1, image_rgb, face_landmarks)
+        point_2 = self.get_abs_point_from_single_lm(lm2, image_rgb, face_landmarks)
+        abs_dist = sum([(i - j) ** 2 for i, j in zip(point_1, point_2)]) ** 0.5  # euclidian distance is calculated
+        print(f"distance between {lm1}-{lm2}is:", abs_dist)
+
+        return abs_dist
+
+    def get_abs_lm_xy(self, image_rgb, single_lm_coord):
+        abs_lm_x, abs_lm_y = self.absolute_lm(image_rgb, single_lm_coord)
         # print("**get_abs_lm_xy called**\nLM coordinates are:\n ",single_lm_coord,"absolute x:", abs_lm_x, "\nabsolute y:", abs_lm_y)
         return abs_lm_x, abs_lm_y
 
@@ -136,114 +152,89 @@ class MediapipeStream:
               "absolute Point is:", abs_point)
         return abs_point
 
-    def output_to_csv(self,landmark_dict):
-        with open(os.path.abspath(".") + "\\extractedData\\landmarks.csv", mode='w', newline='') as csv_file:
-            fieldnames = ['frameid', 'landmark', 'x', 'y', 'abs_x', 'abs_y']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            writer.writeheader()
-            #for self.frameid, landmarks_dict in enumerate(self.landmarks):
-                for landmark_idx, landmark_data in landmark_dict.items():
-            for i in range(478):
-
-                header_string = f'frame_id,lm_000_x,lm_000_y,lm_001_x,lm_001_y,...,nose_dist,nose_ear'
-
-                writer.writerow({
-                    'frameid': f'{self.frameid}',
-                    'landmark': f'{i}',
-                    'x': landmark_dict[i]['x'],
-                    'y': landmark_dict[i]['y'],
-                    'abs_x': landmark_dict[i]['abs_x'],
-                    'abs_y': landmark_dict[i]['abs_y']
-                })
-
-
     def get_lm_coord(self, single_lm, face_landmarks):
         single_lm_coord = face_landmarks.landmark[single_lm]  # hier wird auf die einzelnen LM zugegriffen
         # print("**get_lm_coord called**\nLM",single_lm,"coordinates are:\n", single_lm_coord)
         return single_lm_coord
 
-    def get_abs_point_from_single_lm(self, single_lm,image,face_landmarks):
-        single_lm_coord = self.get_lm_coord(single_lm,face_landmarks)
-        abs_lm_x, abs_lm_y = self.get_abs_lm_xy(image, single_lm_coord)
+    def get_lm_coord_xy(self, single_lm, face_landmarks):
+        lm_xyz = face_landmarks.landmark[single_lm]
+        lm_x = 1 * lm_xyz.x
+        lm_y = 1 * lm_xyz.y
+        # print("**get_lm_coord called**\nLM",single_lm,"coordinates are:\n", single_lm_coord)
+        return lm_x, lm_y
+
+    # self.get_lm_coord(self, 4, face_landmarks)
+
+    def get_abs_point_from_single_lm(self, single_lm, image_rgb, face_landmarks):
+        single_lm_coord = self.get_lm_coord(single_lm, face_landmarks)
+        abs_lm_x, abs_lm_y = self.get_abs_lm_xy(image_rgb, single_lm_coord)
         self.get_abs_point(abs_lm_x, abs_lm_y)
         abs_point = (abs_lm_x, abs_lm_y)
         print("LM", single_lm, "coordinates:\n"
                                "absolute x:", abs_lm_x, "\n"
-                                "absolute y:", abs_lm_y)
+                                                        "absolute y:", abs_lm_y)
         return abs_point
 
-    def processMP(self, image, region):
+    # self.get_abs_point_from_single_lm(4, image_rgb, face_landmarks)
+
+    def start_face_mesh(self, image_rgb):
+        """
+        starts mediapipe facemesh and returns frame containing the image with 477 Landmarks
+        :param image_rgb: takes image in rgb format
+        :return: frame containing the image with 477 Landmarks: image_face_mesh
+        """
         # instance of face_mesh is created
         mp_face_mesh = mp.solutions.face_mesh
 
-        # parameters for facemesh are set
+        # parameters for face_mesh are set
         with mp_face_mesh.FaceMesh(
                 max_num_faces=1,
                 static_image_mode=False,
                 refine_landmarks=True,
                 min_detection_confidence=0.5,
                 min_tracking_confidence=0.5) as face_mesh:
-            print("mp Parameters set")
+            # This is where the magic happens: 477 Landmarks are tracked with face_mesh
+            image_face_mesh = face_mesh.process(image_rgb)
 
-            # For performance improvement the frame is set as not writeable to pass by reference.
-            image.flags.writeable = False
-            vid_face_mesh = face_mesh.process(image)
-            mp_drawing = mp.solutions.drawing_utils
-            mp_drawing_styles = mp.solutions.drawing_styles
-            '''
-            # solution, that draws only selected_lm without iterating through all Lm´s , might be faster
+        return image_face_mesh
 
-            if vid_face_mesh.multi_face_landmarks:
-                for self.selected_lm in vid_face_mesh.multi_face_landmarks: # multi_face_landmarks is the full list of all LMs
-                    self.drawPartLM(region, image, self.selected_lm) 
-            '''
+    def get_face_landmarks(self, image_rgb):
+        image_face_mesh = self.start_face_mesh(image_rgb)
+        face_landmarks = image_face_mesh.multi_face_landmarks
+        return face_landmarks
 
-            if vid_face_mesh.multi_face_landmarks:
-                #filename="test1"
-                landmark_dict = {}
-                for face_landmarks in vid_face_mesh.multi_face_landmarks:
-                    for idx, landmark in enumerate(face_landmarks.landmark):
-                        # Get landmark coordinates
-                        landmark_x = landmark.x
-                        landmark_y = landmark.y
-                        # Get absolute landmark coordinates
-                        abs_lm_x, abs_lm_y = self.absolute_lm(image, landmark)
-                        landmark_dict[idx] = {'x': landmark_x, 'y': landmark_y, 'abs_x': abs_lm_x,
-                                              'abs_y': abs_lm_y}
-                    self.landmarks.append(landmark_dict)
-                    # draws all possible landmarks and their connections in greyscale
-                    # mp_drawing.draw_landmarks(
-                    #    image=image,
-                    #    landmark_list=face_landmarks,
-                    #    connections=mp_face_mesh.FACEMESH_TESSELATION,
-                    #    landmark_drawing_spec=None,
-                    #    connection_drawing_spec=mp_drawing_styles
-                    #    .get_default_face_mesh_tesselation_style())
-                    # **Funktionsaufruf** drawpartLM()  hier werden die ausgewählten LM´s eingezeichnet
-                    self.drawPartLM(region, image, face_landmarks)
-                    # print("drawPartLM('" + region, "') called")
-                self.output_to_csv(landmark_dict)
+    def processMP(self, image_rgb, region):
+        image_face_mesh = self.start_face_mesh(image_rgb)
+        # TODO auslagern und implement into csvExport.write_row
+        #
+        #  def calibrate_alignment(position):
+        #     # Führen Sie hier den eigentlichen Kalibrierungscode basierend auf der Position durch
+        #     print(f"Calibrating {position}...") # Beispielhaftes Ausgabe-Statement
+
+        # check, if face_mesh has detected a face and Landmarks are drawn
+        if image_face_mesh.multi_face_landmarks:
+
+            filename = 'all_Lms'
+            self.header_written = self.csv_export.write_header_all_lms(filename, 'abs_dist_nosetip_vert_top')
+
+            for face_landmarks in image_face_mesh.multi_face_landmarks:
+                abs_dist_nosetip_vert_top = self.abs_distance_from_lms(self.nosetip, self.ref_vert_top, image_rgb,
+                                                                       face_landmarks)
+                csv_data = str(abs_dist_nosetip_vert_top) + ';'
+                self.csv_export.write_row_from_lms(filename, self.frame_id, face_landmarks, csv_data)
+
+                # TODO Funktion zum aufnehmen der einzelnen kopfpositionen in jeweils einer eigenen csv datei
+
+                # **Funktionsaufruf** drawpartLM()  hier werden die ausgewählten LM´s eingezeichnet
+                self.drawPartLM(region, image_rgb, face_landmarks)
+
+        self.frame_id += 1
+        print("******************* frame", +self.frame_id, " handled ********************+")
 
 
-                # get_lm_coord(self, 4)
-
-                self.get_abs_point_from_single_lm(4,image, face_landmarks)
-
-                '''
-                lm_eyelid_left = face_landmarks.landmark[282]
-                abs_lm_x_eyelid_left, abs_lm_y_eyelid_left = self.absolute_lm(image, lm_eyelid_left)
-                abs_point_eyelid_left =  (abs_lm_x_eyelid_left, abs_lm_y_eyelid_left)
-                #print("Nosetip absolute x:", abs_lm_x_eyelid_left, "absolute y:", abs_lm_y_eyelid_left)
-
-            # **Funktionsaufruf** distance()
-                # distance_nosetip_eyelid_left = self.distance(abs_point_eyelid_left, abs_point)
-
-                # print(distance_nosetip_eyelid_left)
-                '''
-
-            self.frameid + 1
-
-        print("******************* frame", +self.frameid, " handled ********************+")
+if __name__ == "__main__":
+    pass
 
 # **Funktionsaufruf** Algorithm for calculating the euclidian distance, region, threshold and duration as parameters
 

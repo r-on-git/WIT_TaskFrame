@@ -1,3 +1,6 @@
+''' an additional feature, to extract the face as a single framed image -> same aspect ratio even when further away..
+
+
 import cv2
 import mediapipe as mp
 #from vidstab import VidStab
@@ -125,3 +128,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+'''

@@ -7,10 +7,53 @@ import MediapipeStream
 
 class OpenCvStream:
 
-    def __init__(self, region):
+    def __init__(self):
         # instance of mediapipe is created
-        self.stream = MediapipeStream.MediapipeStream(region)
-        self.cap = cv2.VideoCapture(0)
+        self.mp = MediapipeStream.MediapipeStream()
+        self.image_bgr = cv2.VideoCapture(0)
+
+    def get_image_bgr(self):
+        """
+        creates VideoCapture Object from opencv and reads video Frame from webcam(0),
+
+        :return: image frame in bgr format as image_bgr
+        """
+
+        image_bgr = cv2.VideoCapture(0)
+        return image_bgr
+
+    def get_image_rgb(self, image_bgr):
+        """
+        takes image in bgr format and converts it to rgb format,
+        also checks if VideoCapture is open and reading, when not reading, process is ignored
+        :param image_bgr:
+        :param reading:
+        :return: image in rgb format
+        """
+        while image_bgr.isOpened():
+            reading, image_bgr = image_bgr.read()
+            if not reading:
+                print("empty Camera Frame, ignoring Process")
+                continue
+                # TODO error handling (when this is executed the following error occurs,
+                # File "C:\Users\koend\PycharmProjects\faceForIO2\OpenCvStream.py",
+                # line 33, in get_image_rgb     while image_bgr.isOpened():
+                # AttributeError: 'numpy.ndarray' object has no attribute 'isOpened')
+
+            # For performance improvement the frame is set as not writeable to pass by reference.
+            image_bgr.flags.writeable = False
+            image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
+            # For performance improvement the frame is set as not writeable to pass by reference.
+            image_rgb.flags.writeable = False
+            return image_rgb, reading
+
+    def show_image(self, image):
+        image.flags.writeable = True
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        cv2.imshow('MediaPipe Face Mesh', cv2.flip(image, 1))
+        if cv2.waitKey(1) & 0xFF == 27:
+            return False
+        return True
 
     def readCamera(self, region):
         # reads video Frame from webcam(0)
@@ -21,17 +64,17 @@ class OpenCvStream:
             if not success:
                 print("empty Camera Frame, ignoring Process")
                 continue
-
+            # TODO als Funktion 'get_image' auslagern und in main aufrufen?!
             image.flags.writeable = False
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-            self.stream.processMP(image, region)
+            # TODO dann auch processMP in main aufrufen und image übergeben
+            self.mp.processMP(image, region)
             print("processMP called")
 
-          # nicht mehr notwendig, da in mediapipe stream verwendet wird
+            # nicht mehr notwendig, da in mediapipe stream verwendet wird
             # vidFaceMesh = face_mesh.process(image) # als funktionsaufrauf auslagern
             # alle koordinaten werden hier ausgelesen
-
+            # TODO dann dies auch als Funktion 'show_image' auslagern und ebenfalls in main aufrufen
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
@@ -40,6 +83,10 @@ class OpenCvStream:
             if cv2.pollKey() & 0xFF == 27:
                 break
         cap.release()
+
+
+if __name__ == "__main__":
+    pass
 
 '''
 #idea to make this class modular and call only when the video should be displayed:
@@ -56,4 +103,3 @@ class OpenCvStream:
             ret, frame = self.cap.read()
             return frame
 '''
-

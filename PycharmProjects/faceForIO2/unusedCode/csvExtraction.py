@@ -1,5 +1,5 @@
 
-
+'''first implementation of csv export, that uses csv writer library, which seems to be too complicated
 # Set up CSV writer
 with open('facial_landmarks.csv', mode='w') as csv_file:
     fieldnames = ['frame', 'x0', 'y0', 'x1', 'y1', ..., 'x467', 'y467']
@@ -33,3 +33,4 @@ with open('facial_landmarks.csv', mode='w') as csv_file:
                     row[f'x{i}'] = landmark.x
                     row[f'y{i}'] = landmark.y
                 writer.writerow(row)
+'''

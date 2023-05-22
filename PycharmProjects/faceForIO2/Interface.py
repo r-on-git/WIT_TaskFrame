@@ -1,108 +1,187 @@
 import tkinter as tk
-import OpenCvStream
+from tkinter import messagebox
 
 
-class Interface(tk.Tk):
-    def __init__(self):
-        super().__init__()
+class Interface:
+    def __init__(self,opencv,mp):
+        self.selected_regions = []
+        self.region_settings = {}
 
-        self.title("FaceForIO")
-        self.geometry("400x300")
+        self.root = tk.Tk()
+        self.root.title("FaceForIO")
+        self.root.geometry("400x300")
 
-        self.var_eyebrow_right = tk.IntVar()
         self.var_eyebrow_left = tk.IntVar()
+        self.var_eyebrow_right = tk.IntVar()
         self.var_both_eyebrows = tk.IntVar()
-        self.var_blink_right = tk.IntVar()
-        self.var_blink_left = tk.IntVar()
-        self.var_blink_both = tk.IntVar()
-        self.var_open_mouth = tk.IntVar()
+        self.var_left_eye = tk.IntVar()
+        self.var_right_eye = tk.IntVar()
+        self.var_both_eyes = tk.IntVar()
+        self.var_mouth = tk.IntVar()
 
-        self.label_title = tk.Label(self, text="FaceForIO")
+        self.label_title = tk.Label(self.root, text="FaceForIO")
         self.label_title.place(x=200, y=10, anchor="center")
 
-        self.label_select_input = tk.Label(self, text="Select input variables")
+        self.label_select_input = tk.Label(self.root, text="Select input variables")
         self.label_select_input.place(x=200, y=40, anchor="center")
 
-        self.checkbox_eyebrow_right = tk.Checkbutton(self, text="Eyebrow Right", variable=self.var_eyebrow_right)
-        self.checkbox_eyebrow_right.place(x=180, y=80)
-
-        self.checkbox_eyebrow_left = tk.Checkbutton(self, text="Eyebrow Left", variable=self.var_eyebrow_left)
+        self.checkbox_eyebrow_left = tk.Checkbutton(self.root, text="Left Eyebrow", variable=self.var_eyebrow_left)
         self.checkbox_eyebrow_left.place(x=30, y=80)
 
-        self.checkbox_both_eyebrows = tk.Checkbutton(self, text="Both Eyebrows", variable=self.var_both_eyebrows)
+        self.checkbox_eyebrow_right = tk.Checkbutton(self.root, text="Right Eyebrow", variable=self.var_eyebrow_right)
+        self.checkbox_eyebrow_right.place(x=180, y=80)
+
+        self.checkbox_both_eyebrows = tk.Checkbutton(self.root, text="Both Eyebrows", variable=self.var_both_eyebrows)
         self.checkbox_both_eyebrows.place(x=30, y=140)
 
-        self.checkbox_blink_right = tk.Checkbutton(self, text="Blink Right", variable=self.var_blink_right)
-        self.checkbox_blink_right.place(x=180, y=110)
+        self.checkbox_left_eye = tk.Checkbutton(self.root, text="Left Eye", variable=self.var_left_eye)
+        self.checkbox_left_eye.place(x=180, y=110)
 
-        self.checkbox_blink_left = tk.Checkbutton(self, text="Blink Left", variable=self.var_blink_left)
-        self.checkbox_blink_left.place(x=30, y=110)
+        self.checkbox_right_eye = tk.Checkbutton(self.root, text="Right Eye", variable=self.var_right_eye)
+        self.checkbox_right_eye.place(x=30, y=110)
 
-        self.checkbox_blink_both = tk.Checkbutton(self, text="Blink Both", variable=self.var_blink_both)
-        self.checkbox_blink_both.place(x=180, y=140)
+        self.checkbox_both_eyes = tk.Checkbutton(self.root, text="Both Eyes", variable=self.var_both_eyes)
+        self.checkbox_both_eyes.place(x=180, y=140)
 
-        self.checkbox_open_mouth = tk.Checkbutton(self, text="Open Mouth", variable=self.var_open_mouth)
-        self.checkbox_open_mouth.place(x=30, y=170)
+        self.checkbox_mouth = tk.Checkbutton(self.root, text="Mouth", variable=self.var_mouth)
+        self.checkbox_mouth.place(x=30, y=170)
 
-        self.next_button = tk.Button(self, text="Next", command=self.next_window)
+        self.next_button = tk.Button(self.root, text="Next", command=self.open_settings)
         self.next_button.place(x=350, y=250, anchor="se")
-        self.stream = OpenCvStream.OpenCvStream()  # create an instance of the openCvStream class
 
-    @property
-    def next_window(self):
-        self.withdraw()
-        self.region = ""
-        if self.var_eyebrow_right.get() == 1:
-            self.region += "Eyebrow Right, "
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
+
+    def open_settings(self):
+        self.selected_regions = []
+
         if self.var_eyebrow_left.get() == 1:
-            self.region += "Eyebrow Left, "
+            self.selected_regions.append("leftEyebrow")
+        if self.var_eyebrow_right.get() == 1:
+            self.selected_regions.append("rightEyebrow")
         if self.var_both_eyebrows.get() == 1:
-            self.region += "Both Eyebrows, "
-        if self.var_blink_right.get() == 1:
-            self.region += "Blink Right, "
-        if self.var_blink_left.get() == 1:
-            self.region += "Blink Left, "
-        if self.var_blink_both.get() == 1:
-            self.region += "Blink Both, "
-        if self.var_open_mouth.get() == 1:
-            self.region += "Open Mouth, "
+            self.selected_regions.append("bothEyebrows")
+        if self.var_left_eye.get() == 1:
+            self.selected_regions.append("leftEye")
+        if self.var_right_eye.get() == 1:
+            self.selected_regions.append("rightEye")
+        if self.var_both_eyes.get() == 1:
+            self.selected_regions.append("bothEyes")
+        if self.var_mouth.get() == 1:
+            self.selected_regions.append("mouth")
 
-        self.region = self.region[:-2]
+        if len(self.selected_regions) == 0:
+            messagebox.showinfo("No Region Selected", "Please select at least one region.")
+        else:
+            self.root.withdraw()
+            self.region_settings = {}
+            self.configure_settings(0)
 
-        selected_vars = self.region.split(", ")
+    def configure_settings(self, index):
+        if index >= len(self.selected_regions):
+            self.show_selected_regions()
+            return
 
-        for var in selected_vars:
-            new_window = tk.Toplevel(self)
-            new_window.title("Settings")
-            new_window.geometry("400x300")
-            label_selected = tk.Label(new_window, text="Selected: " + var)
-            label_selected.place(x=50, y=20)
-            label_threshold = tk.Label(new_window, text="Threshold:")
-            label_threshold.place(x=50, y=60)
+        region = self.selected_regions[index]
 
-            threshold_slider = tk.Scale(new_window, from_=0, to=1, orient="horizontal", resolution=0.05,
-                                        tickinterval=0.05)
-            threshold_slider.place(x=150, y=60)
+        settings_window = tk.Toplevel(self.root)
+        settings_window.title("Settings")
+        settings_window.geometry("400x200")
 
-            label_duration = tk.Label(new_window, text="Duration in ms:")
-            label_duration.place(x=50, y=100)
+        label_selected = tk.Label(settings_window, text="Selected: " + region)
+        label_selected.place(x=50, y=20)
 
-            duration_slider = tk.Scale(new_window, from_=0, to=0.1, resolution=0.01, orient="horizontal")
-            duration_slider.place(x=150, y=100)
+        label_threshold = tk.Label(settings_window, text="Threshold:")
+        label_threshold.place(x=50, y=60)
 
-            start_button = tk.Button(new_window, text="Start",
-                                     command=lambda: self.stream.readCamera(self.region))
-            start_button.place(x=350, y=250, anchor="se")
+        threshold_slider = tk.Scale(settings_window, from_=0, to=1, orient="horizontal", resolution=0.05,
+                                    tickinterval=0.05)
+        threshold_slider.place(x=150, y=60)
 
-        return self.region
-     #   def start_faceMeshAdapted(self):
-    #        threshold = self.threshold_slider.get()
-      #      duration = self.duration_slider.get()
-      #      selected = self.var_selected
-            # call faceMeshAdapted.py with the threshold, duration and selected variables as arguments
-            # import subprocess
-            # subprocess.call(["python", "faceMeshAdapted.py", threshold, duration, selected])
+        label_duration = tk.Label(settings_window, text="Duration in ms:")
+        label_duration.place(x=50, y=100)
 
-if __name__ == "__main__":
-    app = Interface()
-    app.mainloop()
+        duration_slider = tk.Scale(settings_window, from_=0, to=0.1, resolution=0.01, orient="horizontal")
+        duration_slider.place(x=150, y=100)
+
+        def next_clicked():
+            self.save_settings(index, region, threshold_slider.get(), duration_slider.get())
+            settings_window.destroy()
+
+        next_button = tk.Button(settings_window, text="Next", command=next_clicked)
+        next_button.place(x=350, y=150, anchor="se")
+
+        settings_window.protocol("WM_DELETE_WINDOW", self.on_close)
+
+    def save_settings(self, index, region, threshold, duration):
+        self.region_settings[region] = (threshold, duration)
+        self.configure_settings(index + 1)
+
+    def show_selected_regions(self):
+        self.root.withdraw()
+
+        result_window = tk.Toplevel(self.root)
+        result_window.title("Selected Regions")
+        result_window.geometry("400x300")
+
+        label_selected = tk.Label(result_window, text="Selected Regions:")
+        label_selected.place(x=50, y=20)
+
+        label_thresholds = tk.Label(result_window, text="Thresholds:")
+        label_thresholds.place(x=200, y=20)
+
+        label_durations = tk.Label(result_window, text="Durations:")
+        label_durations.place(x=300, y=20)
+
+        row = 40
+        for region in self.selected_regions:
+            threshold, duration = self.region_settings.get(region, (0, 0))
+
+            label_region = tk.Label(result_window, text=region)
+            label_region.place(x=50, y=row)
+
+            label_threshold = tk.Label(result_window, text=threshold)
+            label_threshold.place(x=200, y=row)
+
+            label_duration = tk.Label(result_window, text=duration)
+            label_duration.place(x=300, y=row)
+
+            row += 20
+
+        start_button = tk.Button(result_window, text="Start", command=self.start)
+        start_button.place(x=350, y=250, anchor="se")
+
+        result_window.protocol("WM_DELETE_WINDOW", self.on_close)
+        result_window.focus()
+        # result_window.bind('<Return>', lambda event: self.start())
+
+    def start(self):
+        # Hier die Funktion aufrufen, die nach dem Drücken von "Start" ausgeführt werden soll
+        print("Start button clicked!")
+        self.root.destroy()
+
+    def get_selected_regions(self):
+        return self.selected_regions
+
+    def on_close(self):
+        if messagebox.askokcancel("Quit", "Do you want to quit?"):
+            self.root.destroy()
+
+    def run(self):
+        self.root.mainloop()
+
+    def get_regions_settings(self):
+        """
+
+        :return:
+        """
+        selected_regions = self.get_selected_regions()
+        region_settings = {}
+        for region in selected_regions:
+            threshold, duration = self.region_settings[region]
+            region_settings[region] = {
+                'threshold': threshold,
+                'duration': duration
+            }
+        return selected_regions, region_settings
+
+
