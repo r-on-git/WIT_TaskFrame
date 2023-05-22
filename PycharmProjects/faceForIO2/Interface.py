@@ -4,8 +4,11 @@ from tkinter import messagebox
 
 class Interface:
     def __init__(self,opencv,mp):
+        self.task = 'run_Interface'
         self.selected_regions = []
         self.region_settings = {}
+        self.head_positions = ["straight", "up", "down", "left", "right"]
+        self.current_position = 0
 
         self.root = tk.Tk()
         self.root.title("FaceForIO")
@@ -48,6 +51,9 @@ class Interface:
 
         self.next_button = tk.Button(self.root, text="Next", command=self.open_settings)
         self.next_button.place(x=350, y=250, anchor="se")
+
+        self.calibrate_button = tk.Button(self.root, text="Calibrate", command=self.open_calibration)
+        self.calibrate_button.place(x=10, y=250, anchor="sw")
 
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
 
@@ -155,8 +161,7 @@ class Interface:
         # result_window.bind('<Return>', lambda event: self.start())
 
     def start(self):
-        # Hier die Funktion aufrufen, die nach dem Drücken von "Start" ausgeführt werden soll
-        print("Start button clicked!")
+
         self.root.destroy()
 
     def get_selected_regions(self):
@@ -183,5 +188,43 @@ class Interface:
                 'duration': duration
             }
         return selected_regions, region_settings
+
+
+    def open_calibration(self):
+        self.task = 'calibrate'
+        calibrate_window = tk.Toplevel(self.root)
+        calibrate_window.title("Calibrate")
+        calibrate_window.geometry("400x200")
+
+        head_position = self.head_positions[self.current_position] #TODO currentProblem with headposition
+        if self.current_position >= len(self.head_positions):
+            self.root.unbind("<Key>") #TODO überprüfen ob notwendig
+            return
+
+        if self.current_position == 0:
+            label_instructions = tk.Label(calibrate_window, text="Look straight into the camera\n"
+                                                                 "and press space,\n"
+                                                                 "then hold steady for 3 sec.")
+            self.current_position += 1
+        else:
+            label_instructions = tk.Label(calibrate_window, text="Stay centered in front of the camera,\n"
+                                                                 f"move your head {head_position} and hold steady for 3 sec.")
+            self.current_position += 1
+        label_instructions.pack(pady=20)
+
+        self.next_button = tk.Button(calibrate_window, text="start callibration", command=self.get_head_position)
+        self.next_button.place(x=350, y=150, anchor="se")
+
+        return head_position, self.task
+
+
+
+
+    def get_head_position(self):
+        self.task = 'calibrate'
+        self.root.destroy()
+        return self.task
+
+
 
 

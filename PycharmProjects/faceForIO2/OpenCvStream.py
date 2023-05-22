@@ -11,6 +11,7 @@ class OpenCvStream:
         # instance of mediapipe is created
         self.mp = MediapipeStream.MediapipeStream()
         self.image_bgr = cv2.VideoCapture(0)
+        self.image_rgb= self.get_image_rgb(self.image_bgr)
 
     def get_image_bgr(self):
         """

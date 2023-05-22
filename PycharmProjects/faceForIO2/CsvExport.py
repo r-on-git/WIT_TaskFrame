@@ -90,6 +90,28 @@ class CsvExport:
             row += str(data)
             csv_file.writelines(row + "\r\n")
 
+
+    def write_row_from_lms_for_30fps(self, filename, frame_id, face_landmarks, data):
+        """
+
+        :param filename:
+        :param frame_id:
+        :param face_landmarks:
+        :param data:
+        :return:
+        """
+
+        with open(os.path.abspath(".") + "\\extractedData\\" + f"{filename}.csv", 'a', newline='') as csv_file:
+            row = f"{frame_id}" + self.sep
+            for lm_id, lm in enumerate(face_landmarks.landmark):
+                row += str(lm.x) + self.sep + str(lm.y) + self.sep
+            row += str(data)
+            current_frame_id = frame_id
+            if current_frame_id <= 90:  # corresponds to about 3 sec at 30fp/s
+                csv_file.writelines(row + "\r\n")
+                current_frame_id += 1
+
+
     def write_row_from_abs_lms(self, filename, frame_id, face_landmarks, image_rgb):
         with open(os.path.abspath(".") + "\\extractedData\\" + f"{filename}.csv", 'a', newline='') as csv_file:
             row = f"{frame_id}" + self.sep

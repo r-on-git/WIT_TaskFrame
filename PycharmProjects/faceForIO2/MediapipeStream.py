@@ -2,6 +2,8 @@ import CsvExport
 import mediapipe as mp
 from mediapipe.python.solutions import face_mesh
 
+import Interface
+
 
 # import sys
 
@@ -16,6 +18,7 @@ from mediapipe.python.solutions import face_mesh
 
 class MediapipeStream:
     def __init__(self):
+        # self.interface = Interface.Interface(None,mp) #Todo current problem, creates 3 Interface frames
         self.csv_export = CsvExport.CsvExport()
         self.row_data = [478]
         self.mp_face_detection = mp.solutions.face_detection
@@ -196,7 +199,6 @@ class MediapipeStream:
                 min_tracking_confidence=0.5) as face_mesh:
             # This is where the magic happens: 477 Landmarks are tracked with face_mesh
             image_face_mesh = face_mesh.process(image_rgb)
-
         return image_face_mesh
 
     def get_face_landmarks(self, image_rgb):
@@ -204,7 +206,7 @@ class MediapipeStream:
         face_landmarks = image_face_mesh.multi_face_landmarks
         return face_landmarks
 
-    def processMP(self, image_rgb, region):
+    def processMP(self, image_rgb, region, head_position, task):
         image_face_mesh = self.start_face_mesh(image_rgb)
         # TODO auslagern und implement into csvExport.write_row
         #
@@ -214,20 +216,36 @@ class MediapipeStream:
 
         # check, if face_mesh has detected a face and Landmarks are drawn
         if image_face_mesh.multi_face_landmarks:
+            if task == 'write_all_lms':
+                filename = 'all_Lms'
+                self.header_written = self.csv_export.write_header_all_lms(filename, 'abs_dist_nosetip_vert_top')
 
-            filename = 'all_Lms'
-            self.header_written = self.csv_export.write_header_all_lms(filename, 'abs_dist_nosetip_vert_top')
-
-            for face_landmarks in image_face_mesh.multi_face_landmarks:
-                abs_dist_nosetip_vert_top = self.abs_distance_from_lms(self.nosetip, self.ref_vert_top, image_rgb,
-                                                                       face_landmarks)
-                csv_data = str(abs_dist_nosetip_vert_top) + ';'
-                self.csv_export.write_row_from_lms(filename, self.frame_id, face_landmarks, csv_data)
-
-                # TODO Funktion zum aufnehmen der einzelnen kopfpositionen in jeweils einer eigenen csv datei
+                for face_landmarks in image_face_mesh.multi_face_landmarks:
+                    abs_dist_nosetip_vert_top = self.abs_distance_from_lms(self.nosetip, self.ref_vert_top, image_rgb,
+                                                                           face_landmarks)
+                    csv_data = str(abs_dist_nosetip_vert_top) + ';'
+                    self.csv_export.write_row_from_lms(filename, self.frame_id, face_landmarks, csv_data)
 
                 # **Funktionsaufruf** drawpartLM()  hier werden die ausgewählten LM´s eingezeichnet
-                self.drawPartLM(region, image_rgb, face_landmarks)
+                    self.drawPartLM(region, image_rgb, face_landmarks)
+            if task == 'calibrate':
+
+                filename = head_position
+
+                self.header_written = self.csv_export.write_header_all_lms(filename, 'abs_dist_nosetip_vert_top')
+                for face_landmarks in image_face_mesh.multi_face_landmarks:
+
+                    abs_dist_nosetip_vert_top = self.abs_distance_from_lms(self.nosetip, self.ref_vert_top, image_rgb,
+                                                                           face_landmarks)
+                    csv_data = str(abs_dist_nosetip_vert_top) + ';'
+                    self.csv_export.write_row_from_lms_for_30fps(filename, self.frame_id, face_landmarks, csv_data)
+
+
+                    # TODO Funktion zum aufnehmen der einzelnen kopfpositionen in jeweils einer eigenen csv datei
+
+                    # **Funktionsaufruf** drawpartLM()  hier werden die ausgewählten LM´s eingezeichnet
+                    self.drawPartLM(region, image_rgb, face_landmarks)
+
 
         self.frame_id += 1
         print("******************* frame", +self.frame_id, " handled ********************+")
